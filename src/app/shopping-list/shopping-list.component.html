@@ -1,9 +1,13 @@
 <div class="row list_item">
   <div class="col-10">
     <app-shopping-list-edit></app-shopping-list-edit>
+    <ul class="list-group">
+      <a *ngFor="let ing of ingredients" class="list-group-item" style="cursor:pointer">
+        {{ing.name}} ({{ing.amount}})
+      </a>
+    </ul>
   </div>
   <div>
-    <p>the list will be here soon</p>
 
   </div>
 </div>
