@@ -1,13 +1,43 @@
+
 export class Recipe {
+  get imagePath(): string {
+    return this._imagePath;
+  }
 
-  public name: string
-  public description: string
-  public imagePath: string
+  set imagePath(value: string) {
+    this._imagePath = value;
+  }
+  get description(): string {
+    return this._description;
+  }
 
-  constructor(name: string, description: string, image: string) {
+  set description(value: string) {
+    this._description = value;
+  }
+  get name(): string {
+    return this._name;
+  }
 
-    this.name = name
-    this.description = description
-    this.imagePath = image
+  set name(value: string) {
+    this._name = value;
+  }
+  get id(): number {
+    return this._id;
+  }
+
+  set id(value: number) {
+    this._id = value;
+  }
+
+  private _name: string
+  private _description: string
+  private _imagePath: string
+  private _id: number;
+
+  constructor(id:number,name: string, description: string, image: string) {
+    this._id=id
+    this._name = name
+    this._description = description
+    this._imagePath = image
   }
 }

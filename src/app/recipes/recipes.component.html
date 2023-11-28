@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-4 recipes_list m-1">
-    <app-recipes-list></app-recipes-list>
+    <app-recipes-list (onDisplayDetailsRequested)="setRecipeWithDetails($event)"></app-recipes-list>
   </div>
   <div class="col-7 recipes_details m-1">
-    <app-recipe-details></app-recipe-details>
+    <app-recipe-details *ngIf="RecipeWithDetails" [recipe]="RecipeWithDetails" ></app-recipe-details>
   </div>
 </div>
 

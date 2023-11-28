@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Recipe} from "../../recipe.model";
 
 @Component({
@@ -7,6 +7,11 @@ import {Recipe} from "../../recipe.model";
   styleUrl: './recipe-item.component.scss'
 })
 export class RecipeItemComponent {
-@Input('recipeItem')recipe:Recipe;
+  @Input('recipeItem') recipe: Recipe;
+  @Output() onDetailsRequested = new EventEmitter<number>();
+
+  onShowDetails(id: number) {
+    this.onDetailsRequested.emit(id);
+  }
 
 }

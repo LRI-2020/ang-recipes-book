@@ -1,6 +1,6 @@
 <div class="row">
-  <h3 class="recipe_title col-12">Recipe Name</h3>
-  <img src="" alt="" class="recipe_img">
+  <h3 class="recipe_title col-12">{{recipe.name}}</h3>
+  <img [src]="recipe.imagePath" [alt]="recipe.name" class="recipe_img">
 </div>
 <div class="row">
   <div class="dropdown">
@@ -8,15 +8,15 @@
       Manage Recipe
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><a class="dropdown-item" href="#">To Shopping List</a></li>
-      <li><a class="dropdown-item" href="#">Edit Recipe</a></li>
-      <li><a class="dropdown-item" href="#">Delete Recipe</a></li>
+      <li><button class="dropdown-item btn" href="#">To Shopping List</button></li>
+      <li><button class="dropdown-item btn" href="#" [attr.recipe_id]="recipe.id">Edit Recipe</button></li>
+      <li><button class="dropdown-item btn" href="#" [attr.recipe_id]="recipe.id">Delete Recipe</button></li>
     </ul>
   </div>
 </div>
 <div class="row">
   <div class="col-12">
-    Description
+    {{recipe.description}}
   </div>
 </div>
 
