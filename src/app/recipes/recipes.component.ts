@@ -7,8 +7,8 @@ import {Recipe} from "./recipe.model";
   styleUrl: './recipes.component.scss'
 })
 export class RecipesComponent {
-  RecipeWithDetails: Recipe;
+  selectedRecipe: Recipe;
   setRecipeWithDetails(recipe:Recipe){
-    this.RecipeWithDetails = recipe;
+    this.selectedRecipe = recipe;
   }
 }
