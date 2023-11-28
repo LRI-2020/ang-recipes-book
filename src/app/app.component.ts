@@ -6,4 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  currentComponent: string='recipes'
+
+  navigateTo(value:string){
+    this.currentComponent=value;
+  }
 }
