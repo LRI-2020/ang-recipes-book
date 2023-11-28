@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {isEmpty} from "../../shared/helpers";
+import {Ingredient} from "../../shared/ingredient";
 
 @Component({
   selector: 'app-shopping-list-edit',
@@ -6,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrl: './shopping-list-edit.component.scss'
 })
 export class ShoppingListEditComponent {
-
+@ViewChild('ingredientName') newIngredientName:ElementRef;
+@ViewChild('ingredientAmount') newIngredientAmount:ElementRef;
+@Output() onAddIngredient= new EventEmitter<Ingredient>();
+  emitNewIngredient() {
+    if(!isEmpty(this.newIngredientAmount) && !isEmpty(this.newIngredientName))
+    {
+      let newIngredient = new Ingredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value);
+      this.onAddIngredient.emit(newIngredient);
+    }
+  }
 }
