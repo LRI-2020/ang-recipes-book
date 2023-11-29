@@ -14,7 +14,7 @@ export class ShoppingListEditComponent {
   emitNewIngredient() {
     if(!isEmpty(this.newIngredientAmount) && !isEmpty(this.newIngredientName))
     {
-      let newIngredient = new Ingredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value);
+      const newIngredient = new Ingredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value);
       this.onAddIngredient.emit(newIngredient);
     }
   }
