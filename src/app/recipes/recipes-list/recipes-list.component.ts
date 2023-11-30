@@ -1,41 +1,26 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Recipe} from "../recipe.model";
+import {RecipesService} from "../../../services/recipes.service";
 
 @Component({
   selector: 'app-recipes-list',
   templateUrl: './recipes-list.component.html',
   styleUrl: './recipes-list.component.scss'
 })
-export class RecipesListComponent {
+export class RecipesListComponent implements OnInit {
   recipes: Recipe[] = [];
-  @Output() onDisplayDetailsRequested = new EventEmitter<Recipe>();
 
-  constructor() {
-    this.addNewRecipe('spaghetti bolognaise 1', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-    this.addNewRecipe('spaghetti bolognaise 2', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-    this.addNewRecipe('spaghetti bolognaise 3', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-    this.addNewRecipe('spaghetti bolognaise 4', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-
+  constructor(private recipesService: RecipesService) {
   }
 
-  getLastId(): number {
-    if (this.recipes?.length > 0) {
-      return this.recipes.reduce((acc, curr, i, arr) => {
-        return Math.max(acc, curr.id);
-      }, Number.MIN_SAFE_INTEGER);
-    }
-    return 0;
 
-  }
-
-  addNewRecipe(name: string, img: string, description: string) {
-    let lastId = this.getLastId();
-    this.recipes.push(new Recipe(++lastId, name, img, description))
-  }
 
   requestDisplayDetails(recipe: Recipe) {
+    this.recipesService.selectedRecipe.emit(recipe);
+  }
 
-    this.onDisplayDetailsRequested.emit(recipe);
+  ngOnInit(): void {
+    this.recipes=this.recipesService.getRecipes();
   }
 
 
