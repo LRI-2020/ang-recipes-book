@@ -1,15 +1,37 @@
 import {Recipe} from "../app/recipes/recipe.model";
 import {EventEmitter} from "@angular/core";
+import {Ingredient} from "../app/shared/ingredient";
 
 export class RecipesService {
 
   private recipes: Recipe[] = [];
 selectedRecipe=new EventEmitter<Recipe>();
   constructor() {
-    this.addNewRecipe('spaghetti bolognaise 1', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-    this.addNewRecipe('spaghetti bolognaise 2', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-    this.addNewRecipe('spaghetti bolognaise 3', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
-    this.addNewRecipe('spaghetti bolognaise 4', 'recette des spaghetti bolognaise maison', '../../../assets/img/spaghetti_bolognaise.jpg');
+    this.addNewRecipe(
+      'spaghetti bolognaise',
+      'recette des spaghetti bolognaise maison',
+      '../../../assets/img/pexels-ketut-subiyanto-4349774.jpg',
+      [
+      new Ingredient('spaghettis',500),
+      new Ingredient('tomates',15),
+    ]);
+    this.addNewRecipe(
+      'risotto champignons',
+      "risotto d'hiver aux pleurotes",
+      '../../../assets/img/pexels-marta-dzedyshko-2067418.jpg',
+      [
+        new Ingredient('riz',500),
+        new Ingredient('pleurotes',750),
+      ]);
+    this.addNewRecipe(
+      'quiche poireaux',
+      'quiche végétarienne aux poireaux et fromage',
+      '../../../assets/img/pexels-malidate-van-839008.jpg',
+      [
+        new Ingredient('poireaux',8),
+        new Ingredient('oeufs',5),
+        new Ingredient('pâte',1)
+      ]);
   }
 
   getRecipes(){
@@ -25,9 +47,9 @@ selectedRecipe=new EventEmitter<Recipe>();
 
   }
 
-  addNewRecipe(name: string, img: string, description: string) {
+  addNewRecipe(name: string, img: string, description: string, ingredients:Ingredient[]) {
     let lastId = this.getLastId();
-    this.recipes.push(new Recipe(++lastId, name, img, description))
+    this.recipes.push(new Recipe(++lastId, name, img, description, ingredients))
   }
 
 }

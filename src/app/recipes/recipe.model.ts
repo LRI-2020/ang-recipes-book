@@ -1,5 +1,14 @@
+import {Ingredient} from "../shared/ingredient";
 
 export class Recipe {
+  get ingredients(): Ingredient[] {
+    return this._ingredients;
+  }
+
+  set ingredients(value: Ingredient[]) {
+    this._ingredients = value;
+  }
+  private _ingredients: Ingredient[];
   get imagePath(): string {
     return this._imagePath;
   }
@@ -34,10 +43,11 @@ export class Recipe {
   private _imagePath: string
   private _id: number;
 
-  constructor(id:number,name: string, description: string, image: string) {
+  constructor(id:number,name: string, description: string, image: string, ingredients:Ingredient[]) {
     this._id=id
     this._name = name
     this._description = description
     this._imagePath = image
+    this._ingredients = ingredients
   }
 }

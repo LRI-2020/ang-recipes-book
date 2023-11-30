@@ -2,8 +2,22 @@
   <h3 class="recipe_title col-12">{{recipe.name}}</h3>
   <img [src]="recipe.imagePath" [alt]="recipe.name" class="recipe_img">
 </div>
+<div class="row my-2">
+  <div class="col-12">
+    {{recipe.description}}
+  </div>
+</div>
+
 <div class="row">
-  <div class="dropdown" appDropdown>
+  <div class="col-8">
+    <ul class="list-group">
+      <li *ngFor="let ing of recipe.ingredients"><a class="list-group-item" style="cursor:pointer">
+        {{ing.name}} ({{ing.amount}})
+      </a>
+      </li>
+    </ul>
+  </div>
+  <div class="dropdown col-3" appDropdown>
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
       Manage Recipe
     </button>
@@ -14,14 +28,6 @@
     </ul>
   </div>
 </div>
-<div class="row">
-  <div class="col-12">
-    {{recipe.description}}
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-12">
-    Ingredients
-  </div>
-</div>
+
+
