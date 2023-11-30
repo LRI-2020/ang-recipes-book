@@ -5,17 +5,17 @@ export class ShoppingListService{
   ingredients:Ingredient[]=[];
   onIngredientAdded = new EventEmitter<void>();
 
-  addIngredient(name:string, amount:number) {
+  addIngredient(ingredient:Ingredient) {
     console.log('in the add ingredient method of service');
-    this.ingredients.push(new Ingredient(name,amount));
+    this.ingredients.push(ingredient);
     this.onIngredientAdded.emit();
     console.log('new list of ingredients : ' + JSON.stringify(this.ingredients));
   }
 
   constructor() {
-    this.addIngredient('apple',5);
-    this.addIngredient('strawberries',50);
-    this.addIngredient('cherries',25);
+    // this.addIngredient('apple',5);
+    // this.addIngredient('strawberries',50);
+    // this.addIngredient('cherries',25);
   }
 
   getIngredientById(id:string){

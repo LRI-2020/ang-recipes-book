@@ -17,8 +17,9 @@ constructor(private shoppingService:ShoppingListService) {
   addNewIngredient() {
     if(!isEmpty(this.newIngredientAmount) && !isEmpty(this.newIngredientName))
     {
-      console.log('inputs ok to add new ingredient')
-      this.shoppingService.addIngredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value);
+      console.log('inputs ok to add new ingredient');
+      let ingredient = new Ingredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value)
+      this.shoppingService.addIngredient(ingredient);
     }
   }
 }

@@ -47,9 +47,9 @@ selectedRecipe=new EventEmitter<Recipe>();
 
   }
 
-  addNewRecipe(name: string, img: string, description: string, ingredients:Ingredient[]) {
+  addNewRecipe(name: string, description: string, img: string,ingredients:Ingredient[]) {
     let lastId = this.getLastId();
-    this.recipes.push(new Recipe(++lastId, name, img, description, ingredients))
+    this.recipes.push(new Recipe(++lastId, name, description,img, ingredients))
   }
 
 }
