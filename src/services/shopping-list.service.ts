@@ -3,13 +3,16 @@ import {EventEmitter} from "@angular/core";
 
 export class ShoppingListService{
   ingredients:Ingredient[]=[];
-  onIngredientAdded = new EventEmitter<void>();
+  onIngredientsChanged = new EventEmitter<void>();
 
   addIngredient(ingredient:Ingredient) {
-    console.log('in the add ingredient method of service');
     this.ingredients.push(ingredient);
-    this.onIngredientAdded.emit();
-    console.log('new list of ingredients : ' + JSON.stringify(this.ingredients));
+    this.onIngredientsChanged.emit();
+  }
+
+  addIngredients(ingredients:Ingredient[]){
+    this.ingredients.push(...ingredients);
+    this.onIngredientsChanged.emit();
   }
 
   constructor() {
