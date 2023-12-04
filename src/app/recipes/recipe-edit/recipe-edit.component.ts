@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Recipe} from "../recipe.model";
 import {RecipesService} from "../../../services/recipes.service";
 import {ActivatedRoute} from "@angular/router";
@@ -12,9 +12,8 @@ import {Ingredient} from "../../shared/ingredient";
 })
 export class RecipeEditComponent {
   originalRecipe: Recipe;
-  @ViewChild('new_name') newName:string;
-  @ViewChild('new_description') newDescription:string;
-  @ViewChild('new_ingredients') newIngredients:Ingredient[];
+  @ViewChild('new_name') newName:ElementRef;
+  @ViewChild('new_description') newDescription:ElementRef;
 
   constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute) {
   }
@@ -28,22 +27,14 @@ export class RecipeEditComponent {
   }
 
   onSave() {
-    if (!isEmpty(this.originalRecipe.name)
-      && !isEmpty(this.originalRecipe.description)
-      && this.originalRecipe.ingredients.length > 0
+    if (!isEmpty(this.newName.nativeElement.value)
+      && !isEmpty(this.newDescription.nativeElement.value)
       && Number(this.activeRoute.snapshot.params['id']) === this.originalRecipe.id) {
-      this.recipeService.updateRecipe(this.originalRecipe.id, this.originalRecipe);
+      this.recipeService.updateRecipe(this.originalRecipe.id, this.newName.nativeElement.value, this.newDescription.nativeElement.value);
       alert('changes are saved');
     } else {
       alert('there is an error in your data');
-      console.log(JSON.stringify(this.originalRecipe));
-      console.log(this.activeRoute.snapshot.params['id']);
-      console.log(this.originalRecipe.id);
-      console.log(this.originalRecipe.name);
-      console.log(this.originalRecipe.ingredients.length);
-      console.log(this.originalRecipe.description);
-      for(let ing of this.originalRecipe.ingredients)
-        console.log(ing.name + ' ' + ing.amount);
+
     }
   }
 

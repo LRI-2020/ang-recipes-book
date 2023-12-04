@@ -14,7 +14,6 @@
 
 <div class="row">
   <div class="col-7 mx-2">
-
     <div>
       <label for="recipe_name" class="form-label"> Recipe Id : </label>
       <input class="readonly form-control" type="number" readonly id="recipe_id" [value]="originalRecipe.id">
@@ -29,9 +28,9 @@
     </div>
     <div>
       <label for="recipe_ingredients" class="form-label"> Ingredients : </label>
-      <div id="recipe_ingredients" *ngFor="let ing of originalRecipe.ingredients">
-        <input type="text" id="ing_name" class="form-control" [value]="ing.name">
-        <input type="number" id="ing-Amount" class="form-control" [value]="ing.amount">
+      <div id="recipe_ingredients" *ngFor="let ing of originalRecipe.ingredients" class="d-flex justify-content-between">
+        <input type="text" readonly id="ing_name" class="form-control readonly" [value]="ing.name">
+        <input type="number" readonly id="ing-Amount" class="form-control readonly " [value]="ing.amount">
       </div>
     </div>
 

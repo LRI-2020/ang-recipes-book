@@ -65,11 +65,10 @@ export class RecipesService {
     this.shoppingService.addIngredients(ingredients);
   }
 
-  updateRecipe(id: number, updatedRecipe: Recipe) {
-    this.recipes.find(r => r.id === id).name = updatedRecipe.name;
-    this.recipes.find(r => r.id === id).description = updatedRecipe.description;
-    this.recipes.find(r => r.id === id).ingredients = updatedRecipe.ingredients;
-    console.log(JSON.stringify(this.recipes));
+  updateRecipe(id: number, newName:string, newDescription:string) {
+    this.recipes.find(r => r.id === id).name = newName;
+    this.recipes.find(r => r.id === id).description = newDescription;
+    console.log("NEw RECIPE : "  + JSON.stringify(this.recipes));
     this.updatedRecipes.emit();
   }
 
