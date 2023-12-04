@@ -2,46 +2,50 @@ import {Recipe} from "../app/recipes/recipe.model";
 import {EventEmitter, Injectable} from "@angular/core";
 import {Ingredient} from "../app/shared/ingredient";
 import {ShoppingListService} from "./shopping-list.service";
+
 @Injectable()
 export class RecipesService {
 
   private recipes: Recipe[] = [];
-selectedRecipe=new EventEmitter<Recipe>();
-  constructor(private shoppingService:ShoppingListService) {
+  selectedRecipe = new EventEmitter<Recipe>();
+  updatedRecipes = new EventEmitter<void>();
+
+  constructor(private shoppingService: ShoppingListService) {
     this.addNewRecipe(
       'spaghetti bolognaise',
       'recette des spaghetti bolognaise maison',
       '../../../assets/img/pexels-ketut-subiyanto-4349774.jpg',
       [
-      new Ingredient('spaghettis',500),
-      new Ingredient('tomates',15),
-    ]);
+        new Ingredient('spaghettis', 500),
+        new Ingredient('tomates', 15),
+      ]);
     this.addNewRecipe(
       'risotto champignons',
       "risotto d'hiver aux pleurotes",
       '../../../assets/img/pexels-marta-dzedyshko-2067418.jpg',
       [
-        new Ingredient('riz',500),
-        new Ingredient('pleurotes',750),
+        new Ingredient('riz', 500),
+        new Ingredient('pleurotes', 750),
       ]);
     this.addNewRecipe(
       'quiche poireaux',
       'quiche végétarienne aux poireaux et fromage',
       '../../../assets/img/pexels-malidate-van-839008.jpg',
       [
-        new Ingredient('poireaux',8),
-        new Ingredient('oeufs',5),
-        new Ingredient('pâte',1)
+        new Ingredient('poireaux', 8),
+        new Ingredient('oeufs', 5),
+        new Ingredient('pâte', 1)
       ]);
   }
 
-  getRecipes(){
+  getRecipes() {
     return this.recipes.slice();
   }
 
-  getRecipeById(id:number){
+  getRecipeById(id: number) {
     return this.recipes.find(r => r.id === id);
   }
+
   getLastId(): number {
     if (this.recipes?.length > 0) {
       return this.recipes.reduce((acc, curr, i, arr) => {
@@ -52,13 +56,21 @@ selectedRecipe=new EventEmitter<Recipe>();
 
   }
 
-  addNewRecipe(name: string, description: string, img: string,ingredients:Ingredient[]) {
+  addNewRecipe(name: string, description: string, img: string, ingredients: Ingredient[]) {
     let lastId = this.getLastId();
-    this.recipes.push(new Recipe(++lastId, name, description,img, ingredients))
+    this.recipes.push(new Recipe(++lastId, name, description, img, ingredients))
   }
 
-  addIngredientToShoppingList(ingredients:Ingredient[]){
-      this.shoppingService.addIngredients(ingredients);
+  addIngredientToShoppingList(ingredients: Ingredient[]) {
+    this.shoppingService.addIngredients(ingredients);
+  }
+
+  updateRecipe(id: number, updatedRecipe: Recipe) {
+    this.recipes.find(r => r.id === id).name = updatedRecipe.name;
+    this.recipes.find(r => r.id === id).description = updatedRecipe.description;
+    this.recipes.find(r => r.id === id).ingredients = updatedRecipe.ingredients;
+    console.log(JSON.stringify(this.recipes));
+    this.updatedRecipes.emit();
   }
 
 }

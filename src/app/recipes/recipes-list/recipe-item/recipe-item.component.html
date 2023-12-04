@@ -1,14 +1,16 @@
-<a (click)="onSelected()" style="cursor: pointer">
-<div class="row">
-  <div class="mx-1 card col-12 my-1">
-    <div class="card-header">
-      <h3 class="recipe_name">{{recipe.name}}</h3>
-    </div>
-    <div class="card-body">
-      <p>{{recipe.description}}</p>
-      <img [src]="recipe.imagePath" [alt]="recipe.name" class="recipe_img card-img">
-    </div>
 
-  </div>
-</div>
-</a>
+<a [routerLink]="[recipe.id.toString()]" routerLinkActive="active" style="cursor: pointer">
+    <div class="row details rounded">
+      <div class="mx-1 col-7 my-1">
+
+        <h3 class="recipe_name">{{recipe.name}}</h3>
+        <p>{{recipe.description}}</p>
+      </div>
+
+        <div class="col-4 my-1">
+          <img [src]="recipe.imagePath" [alt]="recipe.name" class="recipe_img rounded">
+        </div>
+
+    </div>
+  </a>
+

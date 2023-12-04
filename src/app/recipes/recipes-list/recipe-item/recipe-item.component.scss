@@ -1,0 +1,19 @@
+img{
+  width:100%;
+}
+a{
+  text-decoration: none;
+  color:black;
+}
+
+.details{
+  border: solid lightgray 1px;
+
+}
+
+.active{
+  .details{
+    background-color: lightgray;
+  }
+}
+

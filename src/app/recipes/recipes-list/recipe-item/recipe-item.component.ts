@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {Recipe} from "../../recipe.model";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-recipe-item',
@@ -10,10 +9,8 @@ import {Router} from "@angular/router";
 export class RecipeItemComponent {
   @Input('recipeItem') recipe: Recipe;
 
-  constructor(private router:Router) {
+  constructor() {
   }
-  onSelected() {
-    this.router.navigate(['/recipes',this.recipe.id.toString()]);
-  }
+
 
 }

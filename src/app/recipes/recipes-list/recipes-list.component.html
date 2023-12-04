@@ -3,5 +3,5 @@
     <button class="btn btn-dark">New recipe</button>
   </div>
 </div>
-<app-recipe-item *ngFor="let recipe of recipes" [recipeItem]="recipe" (onRecipeSelected)="requestDisplayDetails(recipe)"></app-recipe-item>
+<app-recipe-item *ngFor="let recipe of recipes" [recipeItem]="recipe"></app-recipe-item>
 
