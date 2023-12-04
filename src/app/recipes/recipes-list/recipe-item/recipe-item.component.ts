@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Recipe} from "../../recipe.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-recipe-item',
@@ -8,10 +9,13 @@ import {Recipe} from "../../recipe.model";
 })
 export class RecipeItemComponent {
   @Input('recipeItem') recipe: Recipe;
-  @Output() onRecipeSelected = new EventEmitter<void>();
+  @Output() onRecipeSelected = new EventEmitter<number>();
 
+  constructor(private router:Router) {
+  }
   onSelected() {
-    this.onRecipeSelected.emit();
+    this.router.navigate(['/recipes',this.recipe.id.toString()]);
+    // this.onRecipeSelected.emit(this.recipe.id);
   }
 
 }

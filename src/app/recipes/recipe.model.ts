@@ -34,14 +34,10 @@ export class Recipe {
     return this._id;
   }
 
-  set id(value: number) {
-    this._id = value;
-  }
-
   private _name: string
   private _description: string
   private _imagePath: string
-  private _id: number;
+  private readonly _id: number;
 
   constructor(id:number,name: string, description: string, image: string, ingredients:Ingredient[]) {
     this._id=id

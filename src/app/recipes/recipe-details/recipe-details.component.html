@@ -22,9 +22,9 @@
       Manage Recipe
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li><button class="dropdown-item btn" href="#" (click)="addToShoppingList()">To Shopping List</button></li>
-      <li><button class="dropdown-item btn" href="#" [attr.recipe_id]="recipe.id">Edit Recipe</button></li>
-      <li><button class="dropdown-item btn" href="#" [attr.recipe_id]="recipe.id">Delete Recipe</button></li>
+      <li><button class="dropdown-item btn" (click)="addToShoppingList()" style="cursor: pointer">To Shopping List</button></li>
+      <li><button class="dropdown-item btn"  [attr.recipe_id]="recipe.id" style="cursor: pointer">Edit Recipe</button></li>
+      <li><button class="dropdown-item btn"  [attr.recipe_id]="recipe.id" style="cursor: pointer">Delete Recipe</button></li>
     </ul>
   </div>
 </div>

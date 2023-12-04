@@ -38,6 +38,10 @@ selectedRecipe=new EventEmitter<Recipe>();
   getRecipes(){
     return this.recipes.slice();
   }
+
+  getRecipeById(id:number){
+    return this.recipes.find(r => r.id === id);
+  }
   getLastId(): number {
     if (this.recipes?.length > 0) {
       return this.recipes.reduce((acc, curr, i, arr) => {

@@ -3,7 +3,8 @@
     <app-recipes-list></app-recipes-list>
   </div>
   <div class="col-7 recipes_details m-1">
-    <app-recipe-details *ngIf="selectedRecipe" [recipe]="selectedRecipe" ></app-recipe-details>
+    <router-outlet></router-outlet>
+<!--    <app-recipe-details *ngIf="selectedRecipe" [recipe]="selectedRecipe" ></app-recipe-details>-->
   </div>
 </div>
 

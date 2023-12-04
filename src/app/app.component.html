@@ -1,3 +1,4 @@
 <app-header (onNavigate)="navigateTo($event)"></app-header>
-<app-recipes *ngIf="currentComponent==='recipes'"></app-recipes>
-<app-shopping-list *ngIf="currentComponent==='shopping'"></app-shopping-list>
+<router-outlet></router-outlet>
+<!--<app-recipes></app-recipes>-->
+<!--<app-shopping-list></app-shopping-list>-->
