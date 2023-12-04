@@ -1,8 +1,12 @@
 <div class="row">
-  <div class="col-sm-6 text-center mx-auto">
+  <div *ngIf="editMode; else createRecipe" class="col-sm-6 text-center mx-auto">
     <h2>Edit Recipe</h2>
     <h4>{{originalRecipe.name}}</h4>
   </div>
+
+  <ng-template #createRecipe>
+    <h2>Create a Recipe</h2>
+  </ng-template>
 </div>
 <div class="row">
   <div class="col-sm-4 d-flex justify-content-sm-around mx-auto my-2">
@@ -16,22 +20,36 @@
   <div class="col-7 mx-2">
     <div>
       <label for="recipe_name" class="form-label"> Recipe Id : </label>
-      <input class="readonly form-control" type="number" readonly id="recipe_id" [value]="originalRecipe.id">
+      <input class="readonly form-control" type="number" readonly id="recipe_id" [value]="originalRecipe?originalRecipe.id:''">
     </div>
     <div>
       <label for="recipe_name" class="form-label"> Recipe Name : </label>
-      <input type="text" id="recipe_name"  class="form-control" [value]="originalRecipe.name" #new_name>
+      <input type="text" id="recipe_name" class="form-control" [value]="originalRecipe?originalRecipe.name:''" #new_name>
     </div>
     <div>
       <label for="recipe_description" class="form-label"> Recipe Description : </label>
-      <textarea id="recipe_description" class="form-control" [value]="originalRecipe.description" #new_description></textarea>
+      <textarea id="recipe_description" class="form-control" [value]="originalRecipe?originalRecipe.description:''" #new_description></textarea>
     </div>
     <div>
       <label for="recipe_ingredients" class="form-label"> Ingredients : </label>
-      <div id="recipe_ingredients" *ngFor="let ing of originalRecipe.ingredients" class="d-flex justify-content-between">
-        <input type="text" readonly id="ing_name" class="form-control readonly" [value]="ing.name">
-        <input type="number" readonly id="ing-Amount" class="form-control readonly " [value]="ing.amount">
+      <div *ngIf="editMode; else newIngredient">
+        <div id="recipe_ingredients" *ngFor="let ing of originalRecipe.ingredients" class="d-flex justify-content-between">
+          <input type="text" readonly id="ing_name_update" class="form-control readonly" [value]="ing.name">
+          <input type="number" readonly id="ing-Amount_update" class="form-control readonly " [value]="ing.amount">
+        </div>
       </div>
+
+      <ng-template #newIngredient>
+        <div>
+          <label for="ing_name_new" class="form-label"> Name : </label>
+          <input type="text" readonly id="ing_name_new" class="form-control">
+        </div>
+        <div>
+          <label for="ing-Amount_new" class="form-label"> Amount : </label>
+          <input type="number" readonly id="ing-Amount_new" class="form-control">
+        </div>
+      </ng-template>
+
     </div>
 
   </div>

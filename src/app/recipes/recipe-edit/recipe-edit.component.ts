@@ -11,6 +11,7 @@ import {Ingredient} from "../../shared/ingredient";
   styleUrl: './recipe-edit.component.scss'
 })
 export class RecipeEditComponent {
+  editMode=false;
   originalRecipe: Recipe;
   @ViewChild('new_name') newName:ElementRef;
   @ViewChild('new_description') newDescription:ElementRef;
@@ -20,8 +21,12 @@ export class RecipeEditComponent {
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe((params) => {
-      let id = +params['id'];
-      this.originalRecipe = this.recipeService.getRecipeById(id);
+      this.editMode = params['id'] != null;
+      if(this.editMode){
+        let id = +params['id'];
+        this.originalRecipe = this.recipeService.getRecipeById(id);
+      }
+
     })
 
   }

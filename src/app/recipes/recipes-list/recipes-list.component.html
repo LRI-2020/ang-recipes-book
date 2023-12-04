@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12">
-    <button class="btn btn-dark">New recipe</button>
+    <button class="btn btn-dark" routerLink="new">New recipe</button>
   </div>
 </div>
 <app-recipe-item *ngFor="let recipe of recipes" [recipeItem]="recipe"></app-recipe-item>
