@@ -18,7 +18,7 @@ constructor(private shoppingService : ShoppingListService) {
 
 }
   ngOnInit(): void {
-    this.shoppingService.onIngredientsChanged.subscribe(()=>{
+    this.changesIngSubscription = this.shoppingService.onIngredientsChanged.subscribe(()=>{
       this.ingredients = this.shoppingService.getIngredients();
     })  }
 

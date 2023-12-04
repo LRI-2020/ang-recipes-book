@@ -1,14 +1,14 @@
 import {Recipe} from "../app/recipes/recipe.model";
-import {EventEmitter, Injectable} from "@angular/core";
 import {Ingredient} from "../app/shared/ingredient";
 import {ShoppingListService} from "./shopping-list.service";
+import {Subject} from "rxjs";
+import {Injectable} from "@angular/core";
 
 @Injectable()
 export class RecipesService {
 
   private recipes: Recipe[] = [];
-  selectedRecipe = new EventEmitter<Recipe>();
-  updatedRecipes = new EventEmitter<void>();
+  updatedRecipes = new Subject<void>();
 
   constructor(private shoppingService: ShoppingListService) {
     this.addNewRecipe(
@@ -69,7 +69,7 @@ export class RecipesService {
     this.recipes.find(r => r.id === id).name = newName;
     this.recipes.find(r => r.id === id).description = newDescription;
     console.log("NEw RECIPE : "  + JSON.stringify(this.recipes));
-    this.updatedRecipes.emit();
+    this.updatedRecipes.next();
   }
 
 }
