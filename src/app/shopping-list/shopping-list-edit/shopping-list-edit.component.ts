@@ -2,6 +2,7 @@ import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/c
 import {isEmpty} from "../../shared/helpers";
 import {Ingredient} from "../../shared/ingredient";
 import {ShoppingListService} from "../../../services/shopping-list.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-shopping-list-edit',
@@ -9,17 +10,26 @@ import {ShoppingListService} from "../../../services/shopping-list.service";
   styleUrl: './shopping-list-edit.component.scss'
 })
 export class ShoppingListEditComponent {
-@ViewChild('ingredientName') newIngredientName:ElementRef;
-@ViewChild('ingredientAmount') newIngredientAmount:ElementRef;
+// @ViewChild('ingredientName') newIngredientName:ElementRef;
+// @ViewChild('ingredientAmount') newIngredientAmount:ElementRef;
+  @ViewChild('addIngredientForm') addIngredientForm: NgForm
 
-constructor(private shoppingService:ShoppingListService) {
-}
-  addNewIngredient() {
-    if(!isEmpty(this.newIngredientAmount) && !isEmpty(this.newIngredientName))
-    {
-      console.log('inputs ok to add new ingredient');
-      let ingredient = new Ingredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value)
-      this.shoppingService.addIngredient(ingredient);
-    }
+  constructor(private shoppingService: ShoppingListService) {
+  }
+
+  // addNewIngredient() {
+  //   if(!isEmpty(this.newIngredientAmount) && !isEmpty(this.newIngredientName))
+  //   {
+  //     console.log('inputs ok to add new ingredient');
+  //     let ingredient = new Ingredient(this.newIngredientName.nativeElement.value,this.newIngredientAmount.nativeElement.value)
+  //     this.shoppingService.addIngredient(ingredient);
+  //   }
+  // }
+
+  addIngredient() {
+    let name = this.addIngredientForm.value.ingredientName;
+    let amount = this.addIngredientForm.value.amount;
+    let ingredient = new Ingredient(name, amount);
+    this.shoppingService.addIngredient(ingredient);
   }
 }
