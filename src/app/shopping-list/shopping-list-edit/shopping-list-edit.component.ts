@@ -1,5 +1,4 @@
-import {Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
-import {isEmpty} from "../../shared/helpers";
+import {Component, ViewChild} from '@angular/core';
 import {Ingredient} from "../../shared/ingredient";
 import {ShoppingListService} from "../../../services/shopping-list.service";
 import {NgForm} from "@angular/forms";
