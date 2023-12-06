@@ -3,55 +3,63 @@
     <h2>Edit Recipe</h2>
     <h4>{{originalRecipe.name}}</h4>
   </div>
-
   <ng-template #createRecipe>
     <h2>Create a Recipe</h2>
   </ng-template>
 </div>
-<div class="row">
-  <div class="col-sm-4 d-flex justify-content-sm-around mx-auto my-2">
-    <button class="btn btn-light" (click)="onSave()">Save</button>
-    <button class="btn btn-light" (click)="onCancel()">Cancel</button>
-    <button class="btn btn-light" (click)="onBack()">Back</button>
-  </div>
-</div>
+<form [formGroup]="editRecipeForm">
 
-<div class="row">
-  <div class="col-7 mx-2">
-    <div>
-      <label for="recipe_name" class="form-label"> Recipe Id : </label>
-      <input class="readonly form-control" type="number" readonly id="recipe_id" [value]="originalRecipe?originalRecipe.id:''">
+  <div class="row">
+
+    <div class="col-sm-4 d-flex justify-content-sm-around mx-auto my-2">
+      <button class="btn btn-light" type="submit">Save</button>
+      <button class="btn btn-light" (click)="onCancel()">Cancel</button>
+      <button class="btn btn-light" (click)="onBack()">Back</button>
     </div>
-    <div>
-      <label for="recipe_name" class="form-label"> Recipe Name : </label>
-      <input type="text" id="recipe_name" class="form-control" [value]="originalRecipe?originalRecipe.name:''" #new_name>
-    </div>
-    <div>
-      <label for="recipe_description" class="form-label"> Recipe Description : </label>
-      <textarea id="recipe_description" class="form-control" [value]="originalRecipe?originalRecipe.description:''" #new_description></textarea>
-    </div>
-    <div>
-      <label for="recipe_ingredients" class="form-label"> Ingredients : </label>
-      <div *ngIf="editMode; else newIngredient">
-        <div id="recipe_ingredients" *ngFor="let ing of originalRecipe.ingredients" class="d-flex justify-content-between">
-          <input type="text" readonly id="ing_name_update" class="form-control readonly" [value]="ing.name">
-          <input type="number" readonly id="ing-Amount_update" class="form-control readonly " [value]="ing.amount">
+  </div>
+
+  <div class="row">
+    <div class="col-7 mx-2">
+      <div>
+        <label for="recipe_name" class="form-label"> Recipe Id : </label>
+        <input class="readonly form-control" type="number" readonly id="recipe_id" formControlName="recipeId">
+      </div>
+      <div>
+        <label for="recipe_name" class="form-label"> Recipe Name : </label>
+        <input type="text" id="recipe_name" class="form-control" formControlName="recipeName" #new_name>
+      </div>
+      <div>
+        <label for="recipe_description" class="form-label"> Recipe Description : </label>
+        <textarea id="recipe_description" class="form-control" formControlName="recipeDescription" #new_description></textarea>
+      </div>
+      <div formGroupName="ingredients">
+        <label class="form-label"> Ingredients : </label>
+        <div>
+          <div *ngFor="let ing of originalRecipe.ingredients" formGroupName="{{ing.id}}">
+            <div class="d-flex flex-inline">
+              <input type="text" readonly id="ing_name_updated" class="form-control" formControlName="ingredientName">
+              <input type="number" readonly id="ing-Amount_updated" formControlName="ingredientAmount" class="form-control">
+              <button class="btn btn-light delete" (click)="onDeleteIng(ing.id)">X</button>
+            </div>
+          </div>
+
+          <div *ngFor="let ingredientForm of getIngredientForms()" formGroupName="{{ingredientForm.}}">
+            <div class="d-flex flex-inline">
+              <input type="text" readonly id="ing_name_updated" class="form-control" formControlName="ingredientName">
+              <input type="number" readonly id="ing-Amount_updated" formControlName="ingredientAmount" class="form-control">
+              <button class="btn btn-light delete" (click)="onDeleteIng(ing.id)">X</button>
+            </div>
+          </div>
+          <button class="btn btn-light addIngredientBtn" (click)="onAddIngredient()">Add Ingredient</button>
         </div>
+
+
+
+
       </div>
 
-      <ng-template #newIngredient>
-        <div>
-          <label for="ing_name_new" class="form-label"> Name : </label>
-          <input type="text" readonly id="ing_name_new" class="form-control">
-        </div>
-        <div>
-          <label for="ing-Amount_new" class="form-label"> Amount : </label>
-          <input type="number" readonly id="ing-Amount_new" class="form-control">
-        </div>
-      </ng-template>
-
     </div>
 
   </div>
 
-</div>
+</form>
