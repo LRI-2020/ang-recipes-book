@@ -47,7 +47,8 @@ export class RecipesService {
   }
 
    addNewRecipe(name: string, description: string, img: string, ingredients: Ingredient[]) {
-    this.recipes.push(new Recipe(name, description, img, ingredients))
+    this.recipes.push(new Recipe(name, description, img, ingredients));
+    this.updatedRecipes.next();
   }
 
   addIngredientToShoppingList(ingredients: Ingredient[]) {

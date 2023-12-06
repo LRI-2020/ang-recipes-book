@@ -26,11 +26,15 @@
       </div>
       <div>
         <label for="recipe_name" class="form-label"> Recipe Name : </label>
-        <input type="text" id="recipe_name" class="form-control" formControlName="recipeName" #new_name>
+        <input type="text" id="recipe_name" class="form-control" formControlName="recipeName">
       </div>
       <div>
         <label for="recipe_description" class="form-label"> Recipe Description : </label>
-        <textarea id="recipe_description" class="form-control" formControlName="recipeDescription" #new_description></textarea>
+        <textarea id="recipe_description" class="form-control" formControlName="recipeDescription"></textarea>
+      </div>
+      <div>
+        <label for="recipe_image" class="form-label"> Recipe Image : </label>
+        <textarea id="recipe_image" class="form-control" formControlName="recipeImage"></textarea>
       </div>
       <div formGroupName="ingredients">
         <label class="form-label"> Ingredients : </label>

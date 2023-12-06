@@ -17,7 +17,7 @@ export class RecipeEditComponent {
 
   editRecipeForm: FormGroup;
 
-  constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute, private router:Router) {
+  constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,11 +35,14 @@ export class RecipeEditComponent {
     if (this.editRecipeForm.valid) {
       let newName = this.editRecipeForm.get('recipeName').value;
       let newDescription = this.editRecipeForm.get('recipeDescription').value;
-      let newIngredients = this.editRecipeForm.get('ingredients').value;
+      let newImage = this.editRecipeForm.get('recipeImage').value;
+      let newIngredients = this.toIngredients(this.editRecipeForm.get('ingredients').value);
+
       if (this.editMode) {
         this.updateRecipe(newName, newDescription, newIngredients);
       } else {
-
+        this.recipeService.addNewRecipe(newName, newDescription, newImage, newIngredients);
+        this.generateForm();
       }
     }
 
@@ -56,10 +59,9 @@ export class RecipeEditComponent {
   }
 
   onBack() {
-    if(this.editMode){
-      this.router.navigate(['/recipes',this.originalRecipe.id]);
-    }
-    else{
+    if (this.editMode) {
+      this.router.navigate(['/recipes', this.originalRecipe.id]);
+    } else {
       this.router.navigate(['/recipes']);
 
     }
@@ -79,16 +81,17 @@ export class RecipeEditComponent {
 
   private generateForm() {
 
-    let ingredients = this.generateIngredients();
+    let ingredients = this.generateIngredientsForms();
     this.editRecipeForm = new FormGroup({
       'recipeId': new FormControl(this.editMode ? this.originalRecipe.id.toString() : ''),
       'recipeName': new FormControl(this.editMode ? this.originalRecipe.name : ''),
       'recipeDescription': new FormControl(this.editMode ? this.originalRecipe.description : ''),
+      'recipeImage': new FormControl(this.editMode ? this.originalRecipe.imagePath : ''),
       'ingredients': ingredients
     })
   }
 
-  private generateIngredients() {
+  private generateIngredientsForms() {
     let ingredients = new FormArray([]);
 
     if (this.editMode) {
@@ -116,6 +119,15 @@ export class RecipeEditComponent {
     });
     this.recipeService.updateRecipe(this.originalRecipe.id, newRecipe);
 
+  }
+
+  private toIngredients(value: any[]) {
+    let results: Ingredient[] = [];
+    value.forEach(v => {
+      results.push(new Ingredient(v.ingredientName, v.ingredientAmount))
+    });
+
+    return results;
   }
 
 }
