@@ -42,34 +42,34 @@ export class RecipesService {
     return this.recipes.slice();
   }
 
-  getRecipeById(id: number) {
+  getRecipeById(id: string) {
     return this.recipes.find(r => r.id === id);
   }
 
-  getLastId(): number {
-    if (this.recipes?.length > 0) {
-      return this.recipes.reduce((acc, curr, i, arr) => {
-        return Math.max(acc, curr.id);
-      }, Number.MIN_SAFE_INTEGER);
-    }
-    return 0;
-
-  }
-
-  addNewRecipe(name: string, description: string, img: string, ingredients: Ingredient[]) {
-    let lastId = this.getLastId();
-    this.recipes.push(new Recipe(++lastId, name, description, img, ingredients))
+   addNewRecipe(name: string, description: string, img: string, ingredients: Ingredient[]) {
+    this.recipes.push(new Recipe(name, description, img, ingredients))
   }
 
   addIngredientToShoppingList(ingredients: Ingredient[]) {
     this.shoppingService.addIngredients(ingredients);
   }
 
-  updateRecipe(id: number, newName:string, newDescription:string) {
-    this.recipes.find(r => r.id === id).name = newName;
-    this.recipes.find(r => r.id === id).description = newDescription;
-    console.log("NEw RECIPE : "  + JSON.stringify(this.recipes));
+  updateRecipe(id: string, newRecipe:Recipe) {
+    console.log('new ingredients before update : ' + JSON.stringify(newRecipe));
+
+    let originalRecipe = this.recipes.find(r => r.id === id);
+    originalRecipe.name = newRecipe.name;
+    originalRecipe.description = newRecipe.description;
+    originalRecipe.ingredients = newRecipe.ingredients;
+    console.log('recipe after update : ' + JSON.stringify(originalRecipe))
     this.updatedRecipes.next();
   }
+
+  // updateRecipe(id: number, newName:string, newDescription:string) {
+  //   this.recipes.find(r => r.id === id).name = newName;
+  //   this.recipes.find(r => r.id === id).description = newDescription;
+  //   console.log("NEw RECIPE : "  + JSON.stringify(this.recipes));
+  //   this.updatedRecipes.next();
+  // }
 
 }

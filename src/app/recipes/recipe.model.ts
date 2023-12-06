@@ -1,4 +1,5 @@
 import {Ingredient} from "../shared/ingredient";
+import {v4 as uuidv4} from "uuid";
 
 export class Recipe {
   get ingredients(): Ingredient[] {
@@ -30,17 +31,17 @@ export class Recipe {
   set name(value: string) {
     this._name = value;
   }
-  get id(): number {
+  get id(): string {
     return this._id;
   }
 
   private _name: string
   private _description: string
   private _imagePath: string
-  private readonly _id: number;
+  private readonly _id: string;
 
-  constructor(id:number,name: string, description: string, image: string, ingredients:Ingredient[]) {
-    this._id=id
+  constructor(name: string, description: string, image: string, ingredients:Ingredient[]) {
+    this._id= uuidv4();
     this._name = name
     this._description = description
     this._imagePath = image

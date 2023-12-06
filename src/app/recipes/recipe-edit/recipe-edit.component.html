@@ -7,7 +7,7 @@
     <h2>Create a Recipe</h2>
   </ng-template>
 </div>
-<form [formGroup]="editRecipeForm">
+<form (ngSubmit)="onSave()" [formGroup]="editRecipeForm">
 
   <div class="row">
 
@@ -19,10 +19,10 @@
   </div>
 
   <div class="row">
-    <div class="col-7 mx-2">
+    <div class="col-12 mx-2">
       <div>
         <label for="recipe_name" class="form-label"> Recipe Id : </label>
-        <input class="readonly form-control" type="number" readonly id="recipe_id" formControlName="recipeId">
+        <input class="readonly form-control" readonly type="text" id="recipe_id" formControlName="recipeId">
       </div>
       <div>
         <label for="recipe_name" class="form-label"> Recipe Name : </label>
@@ -35,27 +35,15 @@
       <div formGroupName="ingredients">
         <label class="form-label"> Ingredients : </label>
         <div>
-          <div *ngFor="let ing of originalRecipe.ingredients" formGroupName="{{ing.id}}">
-            <div class="d-flex flex-inline">
-              <input type="text" readonly id="ing_name_updated" class="form-control" formControlName="ingredientName">
-              <input type="number" readonly id="ing-Amount_updated" formControlName="ingredientAmount" class="form-control">
-              <button class="btn btn-light delete" (click)="onDeleteIng(ing.id)">X</button>
+          <div *ngFor="let form of getIngredientControls();let i = index" [formGroupName]="i">
+            <div class="d-flex flex-inline" >
+              <input type="text" id="ing_name_updated" class="form-control" formControlName="ingredientName">
+              <input type="number" id="ing-Amount_updated" formControlName="ingredientAmount" class="form-control">
+              <button class="btn btn-light delete" (click)="onDeleteIngredient(i)">X</button>
             </div>
           </div>
-
-          <div *ngFor="let ingredientForm of getIngredientForms()" formGroupName="{{ingredientForm.}}">
-            <div class="d-flex flex-inline">
-              <input type="text" readonly id="ing_name_updated" class="form-control" formControlName="ingredientName">
-              <input type="number" readonly id="ing-Amount_updated" formControlName="ingredientAmount" class="form-control">
-              <button class="btn btn-light delete" (click)="onDeleteIng(ing.id)">X</button>
-            </div>
-          </div>
-          <button class="btn btn-light addIngredientBtn" (click)="onAddIngredient()">Add Ingredient</button>
-        </div>
-
-
-
-
+          <button class="btn btn-light" (click)="onAddIngredient();">Add Ingredient</button>
+       </div>
       </div>
 
     </div>
