@@ -37,12 +37,8 @@ export class RecipeEditComponent {
       let newDescription = this.editRecipeForm.get('recipeDescription').value;
       let newIngredients = this.editRecipeForm.get('ingredients').value;
       if (this.editMode) {
-
         this.updateRecipe(newName, newDescription, newIngredients);
-
-      }
-
-      else{
+      } else {
 
       }
     }
@@ -50,7 +46,13 @@ export class RecipeEditComponent {
   }
 
   onCancel() {
-
+    let params = this.activeRoute.snapshot.params;
+    this.editMode = params['id'] != null;
+    if (this.editMode) {
+      let id = params['id'];
+      this.originalRecipe = this.recipeService.getRecipeById(id);
+    }
+    this.generateForm();
   }
 
   onBack() {
@@ -71,7 +73,7 @@ export class RecipeEditComponent {
 
   private generateForm() {
 
-    let ingredients= this.generateIngredients();
+    let ingredients = this.generateIngredients();
     this.editRecipeForm = new FormGroup({
       'recipeId': new FormControl(this.editMode ? this.originalRecipe.id.toString() : ''),
       'recipeName': new FormControl(this.editMode ? this.originalRecipe.name : ''),
@@ -98,15 +100,15 @@ export class RecipeEditComponent {
 
   getIngredientControls() {
 
-    return  (<FormArray>this.editRecipeForm.get('ingredients')).controls;
+    return (<FormArray>this.editRecipeForm.get('ingredients')).controls;
   }
 
   private updateRecipe(name: string, description: string, ingredients: any[]) {
-    let newRecipe: Recipe = new Recipe(name,description,this.originalRecipe.imagePath, []);
+    let newRecipe: Recipe = new Recipe(name, description, this.originalRecipe.imagePath, []);
     ingredients.forEach(newIng => {
       newRecipe.ingredients.push(new Ingredient(newIng.ingredientName, newIng.ingredientAmount))
-    })    ;
-    this.recipeService.updateRecipe(this.originalRecipe.id,newRecipe);
+    });
+    this.recipeService.updateRecipe(this.originalRecipe.id, newRecipe);
 
   }
 
