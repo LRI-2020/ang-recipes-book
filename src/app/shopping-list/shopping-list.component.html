@@ -2,9 +2,16 @@
   <div class="col-10">
     <app-shopping-list-edit></app-shopping-list-edit>
     <ul class="list-group">
-      <li *ngFor="let ing of ingredients"><a class="list-group-item" style="cursor:pointer">
-        {{ing.name}} ({{ing.amount}})
-      </a></li>
+      <li *ngFor="let ing of ingredients">
+        <div class="d-flex flex-inline"  [ngClass]="{'inEdition' : ing.id===ingredientInEdition}">
+          <a class="list-group-item" style="cursor:pointer">
+            {{ing.name}} ({{ing.amount}})
+          </a>
+          <button class="btn btn-light editIngredient" (click)="onEditIngredient(ing.id)"> Edit </button>
+          <button class="btn btn-light deleteIngredient" (click)="onDeleteIngredient(ing.id)"> Delete </button>
+        </div>
+
+      </li>
     </ul>
   </div>
   <div>

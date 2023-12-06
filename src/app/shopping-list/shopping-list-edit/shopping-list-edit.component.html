@@ -18,9 +18,9 @@
       </div>
       <div class="row justify-content-center mb-3">
         <div class="col-sm-4">
-          <button class="btn btn-success mx-1" type="submit" [disabled]="!addIngredientForm.valid">Add</button>
-          <button class="btn btn-danger mx-1" type="button">Delete</button>
-          <button class="btn btn-primary mx-1" type="button">Clear</button>
+          <button class="btn btn-success mx-1" type="submit" [disabled]="!addIngredientForm.valid">{{isEditMode()? 'Edit' : 'Add'}}</button>
+          <button class="btn btn-success mx-1" type="button" (click)="onClear();">Clear</button>
+          <button class="btn btn-danger mx-1" type="button" (click)="onDeleteAll()">Delete All</button>
         </div>
       </div>
     </form>
