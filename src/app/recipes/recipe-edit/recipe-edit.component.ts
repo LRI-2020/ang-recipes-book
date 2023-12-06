@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {Recipe} from "../recipe.model";
 import {RecipesService} from "../../../services/recipes.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 import {v4 as uuidv4} from "uuid";
 import {Ingredient} from "../../shared/ingredient";
@@ -17,7 +17,7 @@ export class RecipeEditComponent {
 
   editRecipeForm: FormGroup;
 
-  constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute) {
+  constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute, private router:Router) {
   }
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class RecipeEditComponent {
   }
 
   onBack() {
-
+    this.router.navigate(['/recipes',this.originalRecipe.id]);
   }
 
   onDeleteIngredient(keyForm: number) {
