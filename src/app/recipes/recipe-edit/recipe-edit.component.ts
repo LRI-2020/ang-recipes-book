@@ -56,7 +56,13 @@ export class RecipeEditComponent {
   }
 
   onBack() {
-    this.router.navigate(['/recipes',this.originalRecipe.id]);
+    if(this.editMode){
+      this.router.navigate(['/recipes',this.originalRecipe.id]);
+    }
+    else{
+      this.router.navigate(['/recipes']);
+
+    }
   }
 
   onDeleteIngredient(keyForm: number) {
