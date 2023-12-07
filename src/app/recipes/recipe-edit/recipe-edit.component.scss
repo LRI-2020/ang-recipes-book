@@ -3,3 +3,12 @@
   color:darkgrey;
 }
 
+.on-error{
+  color:red;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched{
+  border:solid red 1px;
+}
+

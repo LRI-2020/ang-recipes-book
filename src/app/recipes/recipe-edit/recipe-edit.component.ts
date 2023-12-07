@@ -14,8 +14,9 @@ import {Ingredient} from "../../shared/ingredient";
 export class RecipeEditComponent {
   editMode = false;
   originalRecipe: Recipe = null;
-
   editRecipeForm: FormGroup;
+  namePlaceHolder = 'name';
+  amountPlaceHolder = 'amount';
 
   constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute, private router: Router) {
   }
@@ -43,6 +44,10 @@ export class RecipeEditComponent {
         this.recipeService.addNewRecipe(newName, newDescription, newImage, newIngredients);
         this.generateForm();
       }
+    }
+
+    else{
+      this.editRecipeForm.markAllAsTouched();
     }
 
   }
@@ -82,23 +87,23 @@ export class RecipeEditComponent {
 
     let ingredients = this.generateIngredientsForms();
     this.editRecipeForm = new FormGroup({
-      'recipeId': new FormControl(this.editMode ? this.originalRecipe.id.toString() : ''),
-      'recipeName': new FormControl(this.editMode ? this.originalRecipe.name : ''),
-      'recipeDescription': new FormControl(this.editMode ? this.originalRecipe.description : ''),
-      'recipeImage': new FormControl(this.editMode ? this.originalRecipe.imagePath : ''),
+      'recipeId': new FormControl(this.editMode ? this.originalRecipe.id.toString() : '', Validators.required),
+      'recipeName': new FormControl(this.editMode ? this.originalRecipe.name : '', Validators.required),
+      'recipeDescription': new FormControl(this.editMode ? this.originalRecipe.description : '', Validators.required),
+      'recipeImage': new FormControl(this.editMode ? this.originalRecipe.imagePath : '', Validators.required),
       'ingredients': ingredients
     })
   }
 
   private generateIngredientsForms() {
-    let ingredients = new FormArray([]);
+    let ingredients = new FormArray([], Validators.required);
 
     if (this.editMode) {
       this.originalRecipe.ingredients.forEach(ing => {
 
         let ingredientForm = new FormGroup({
-          'ingredientName': new FormControl(ing.name),
-          'ingredientAmount': new FormControl(ing.amount)
+          'ingredientName': new FormControl(ing.name, Validators.required),
+          'ingredientAmount': new FormControl(ing.amount, Validators.required)
         })
         ingredients.push(ingredientForm);
       });
