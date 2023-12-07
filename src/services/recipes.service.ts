@@ -66,11 +66,9 @@ export class RecipesService {
     this.updatedRecipes.next();
   }
 
-  // updateRecipe(id: number, newName:string, newDescription:string) {
-  //   this.recipes.find(r => r.id === id).name = newName;
-  //   this.recipes.find(r => r.id === id).description = newDescription;
-  //   console.log("NEw RECIPE : "  + JSON.stringify(this.recipes));
-  //   this.updatedRecipes.next();
-  // }
-
+deleteRecipe(id:string){
+  let originalRecipeIndex = this.recipes.indexOf(this.recipes.find(r => r.id === id));
+  this.recipes.splice(originalRecipeIndex,1);
+  this.updatedRecipes.next();
+}
 }

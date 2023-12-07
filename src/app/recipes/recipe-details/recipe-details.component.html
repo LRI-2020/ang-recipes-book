@@ -24,7 +24,7 @@
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
       <li><button class="dropdown-item btn" (click)="addToShoppingList()" style="cursor: pointer">To Shopping List</button></li>
       <li><button class="dropdown-item btn"  [attr.recipe_id]="recipe.id" routerLink="edit" style="cursor: pointer">Edit Recipe</button></li>
-      <li><button class="dropdown-item btn"  [attr.recipe_id]="recipe.id" style="cursor: pointer">Delete Recipe</button></li>
+      <li><button class="dropdown-item btn"  [attr.recipe_id]="recipe.id" (click)="onDeleteRecipe()" style="cursor: pointer">Delete Recipe</button></li>
     </ul>
   </div>
 </div>
