@@ -37,9 +37,8 @@ export class RecipeEditComponent {
       let newDescription = this.editRecipeForm.get('recipeDescription').value;
       let newImage = this.editRecipeForm.get('recipeImage').value;
       let newIngredients = this.toIngredients(this.editRecipeForm.get('ingredients').value);
-
       if (this.editMode) {
-        this.updateRecipe(newName, newDescription, newIngredients);
+        this.updateRecipe(newName, newDescription,newImage, newIngredients);
       } else {
         this.recipeService.addNewRecipe(newName, newDescription, newImage, newIngredients);
         this.generateForm();
@@ -112,11 +111,8 @@ export class RecipeEditComponent {
     return (<FormArray>this.editRecipeForm.get('ingredients')).controls;
   }
 
-  private updateRecipe(name: string, description: string, ingredients: any[]) {
-    let newRecipe: Recipe = new Recipe(name, description, this.originalRecipe.imagePath, []);
-    ingredients.forEach(newIng => {
-      newRecipe.ingredients.push(new Ingredient(newIng.ingredientName, newIng.ingredientAmount))
-    });
+  private updateRecipe(name: string, description: string, newImage:string,ingredients: Ingredient[]) {
+    let newRecipe: Recipe = new Recipe(name, description, newImage, ingredients);
     this.recipeService.updateRecipe(this.originalRecipe.id, newRecipe);
 
   }

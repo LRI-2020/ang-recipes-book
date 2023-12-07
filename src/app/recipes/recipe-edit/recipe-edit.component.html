@@ -34,7 +34,10 @@
       </div>
       <div>
         <label for="recipe_image" class="form-label"> Recipe Image : </label>
-        <textarea id="recipe_image" class="form-control" formControlName="recipeImage"></textarea>
+        <input type="text" id="recipe_image" class="form-control" formControlName="recipeImage" #imagePath>
+        <div *ngIf="imagePath.value">
+          <img [src]="imagePath.value">
+        </div>
       </div>
       <div formGroupName="ingredients">
         <label class="form-label"> Ingredients : </label>
