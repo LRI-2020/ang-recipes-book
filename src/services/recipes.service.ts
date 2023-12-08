@@ -5,11 +5,12 @@ import {Subject} from "rxjs";
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
+import {recipeToJs} from "../app/shared/helpers";
 
 @Injectable()
 export class RecipesService {
 
-  apiUrl = 'https://ang-recipes-book-6b01a-default-rtdb.europe-west1.firebasedatabase.app/recipes.json';
+  apiUrl = 'https://ang-recipes-book-6b01a-default-rtdb.europe-west1.firebasedatabase.app/recipes';
 
   private recipes: Recipe[] = [
     new Recipe('spaghetti bolognaise',
@@ -42,20 +43,16 @@ export class RecipesService {
 
   }
 
-  getRecipes() {
-    return this.recipes.slice();
-  }
-
   fetchRecipes() {
     let result: Recipe[] = [];
-    return this.http.get<{ key: string, recipe: Recipe }>(this.apiUrl).pipe(map(responseData => {
+    return this.http.get<{ key: string, recipe: {description:string,imagePath:string,ingredients:Ingredient[],name:string} }>(this.apiUrl+'.json')
+      .pipe(map(responseData => {
       for (let key in responseData) {
-        let recipe = responseData[key] as Recipe;
+        let recipe = new Recipe(responseData[key].name,responseData[key].description,responseData[key].imagePath,responseData[key].ingredients,key);
         result.push(recipe);
       }
       console.log('result in subscription ' + JSON.stringify(result))
       return result;
-
     }));
 
   }
@@ -67,26 +64,8 @@ export class RecipesService {
   }
 
   storeRecipe(name: string, description: string, img: string, ingredients: Ingredient[]) {
-    let recipe = new Recipe(name, description, img, ingredients);
-    let ingredientsToJs = [];
-
-    recipe.ingredients.forEach(ing => ingredientsToJs.push(
-      {
-        id: ing.id,
-        name: ing.name,
-        amount: ing.amount
-      })
-    )
-
-    let bodyRequest = {
-      id: recipe.id,
-      name: recipe.name,
-      description: recipe.description,
-      imagePath: recipe.imagePath,
-      ingredients: ingredientsToJs
-    }
-
-    return this.http.post(this.apiUrl, bodyRequest).subscribe(response => {
+    let bodyRequest = recipeToJs(name, description, img,ingredients);
+    return this.http.post(this.apiUrl+'.json', bodyRequest).subscribe(response => {
       this.updatedRecipes.next();
       console.log('response for recipe stored :  ' + response);
     });
@@ -96,15 +75,14 @@ export class RecipesService {
     this.shoppingService.addIngredients(ingredients);
   }
 
-  updateRecipe(id: string, newRecipe: Recipe) {
-    console.log('new ingredients before update : ' + JSON.stringify(newRecipe));
+  updateRecipe(id: string, newName: string, newDescription: string, newImage:string,newIngredients: Ingredient[]) {
+    let bodyRequest = recipeToJs(newName, newDescription, newImage, newIngredients)
+    return this.http.put(this.apiUrl+'/'+id+'.json',bodyRequest)
+   .subscribe(response => {
+      this.updatedRecipes.next();
+      console.log('response for recipe stored :  ' + response);
+    });
 
-    let originalRecipe = this.recipes.find(r => r.id === id);
-    originalRecipe.name = newRecipe.name;
-    originalRecipe.description = newRecipe.description;
-    originalRecipe.ingredients = newRecipe.ingredients;
-    console.log('recipe after update : ' + JSON.stringify(originalRecipe))
-    this.updatedRecipes.next();
   }
 
   deleteRecipe(id: string) {
@@ -112,4 +90,5 @@ export class RecipesService {
     this.recipes.splice(originalRecipeIndex, 1);
     this.updatedRecipes.next();
   }
+
 }
