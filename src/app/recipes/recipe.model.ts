@@ -40,8 +40,8 @@ export class Recipe {
   private _imagePath: string
   private readonly _id: string;
 
-  constructor(name: string, description: string, image: string, ingredients:Ingredient[]) {
-    this._id= uuidv4();
+  constructor(name: string, description: string, image: string, ingredients:Ingredient[], id?:string) {
+    this._id= id? id : uuidv4();
     this._name = name
     this._description = description
     this._imagePath = image
