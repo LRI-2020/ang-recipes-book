@@ -17,6 +17,7 @@ export class RecipeEditComponent {
   editRecipeForm: FormGroup;
   namePlaceHolder = 'name';
   amountPlaceHolder = 'amount';
+  isLoading=false;
 
   constructor(private recipeService: RecipesService, private activeRoute: ActivatedRoute, private router: Router) {
   }
@@ -25,11 +26,19 @@ export class RecipeEditComponent {
     this.activeRoute.params.subscribe((params) => {
       this.editMode = params['id'] != null;
       if (this.editMode) {
+        this.isLoading=true;
         let id = params['id'];
-        this.originalRecipe = this.recipeService.getRecipeById(id);
+        this.recipeService.getRecipeById(id).subscribe(recipeData => {
+          this.originalRecipe = recipeData;
+          this.generateForm();
+          this.isLoading = false;
+        });
       }
+      else{
+        this.generateForm();
+      }
+
     });
-    this.generateForm();
   }
 
   onSave() {
@@ -41,7 +50,7 @@ export class RecipeEditComponent {
       if (this.editMode) {
         this.updateRecipe(newName, newDescription,newImage, newIngredients);
       } else {
-        this.recipeService.addNewRecipe(newName, newDescription, newImage, newIngredients);
+        this.recipeService.storeRecipe(newName, newDescription, newImage, newIngredients);
         this.generateForm();
       }
     }
@@ -56,8 +65,13 @@ export class RecipeEditComponent {
     let params = this.activeRoute.snapshot.params;
     this.editMode = params['id'] != null;
     if (this.editMode) {
+      this.isLoading=true;
       let id = params['id'];
-      this.originalRecipe = this.recipeService.getRecipeById(id);
+      this.recipeService.getRecipeById(id).subscribe(recipe => {
+        this.originalRecipe = recipe;
+        this.generateForm();
+        this.isLoading = false;
+      });
     }
     this.generateForm();
   }
@@ -87,7 +101,7 @@ export class RecipeEditComponent {
 
     let ingredients = this.generateIngredientsForms();
     this.editRecipeForm = new FormGroup({
-      'recipeId': new FormControl(this.editMode ? this.originalRecipe.id.toString() : '', Validators.required),
+      'recipeId': new FormControl(this.editMode ? this.originalRecipe.id.toString() : ''),
       'recipeName': new FormControl(this.editMode ? this.originalRecipe.name : '', Validators.required),
       'recipeDescription': new FormControl(this.editMode ? this.originalRecipe.description : '', Validators.required),
       'recipeImage': new FormControl(this.editMode ? this.originalRecipe.imagePath : '', Validators.required),

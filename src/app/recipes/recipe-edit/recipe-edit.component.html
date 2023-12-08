@@ -1,73 +1,79 @@
-<div class="row">
-  <div *ngIf="editMode; else createRecipe" class="col-sm-6 text-center mx-auto">
-    <h2>Edit Recipe</h2>
-    <h4>{{originalRecipe.name}}</h4>
-  </div>
-  <ng-template #createRecipe>
-    <h2>Create a Recipe</h2>
-  </ng-template>
+<div class="loading" *ngIf="isLoading">
+  <p>Loading ...</p>
 </div>
-<form (ngSubmit)="onSave()" [formGroup]="editRecipeForm">
-
+<div class="loaded" *ngIf="!isLoading">
   <div class="row">
-
-    <div class="col-sm-4 d-flex justify-content-sm-around mx-auto my-2">
-      <button class="btn btn-light" type="submit">Save</button>
-      <button class="btn btn-light" type="button" (click)="onCancel()">Cancel</button>
-      <button class="btn btn-light" type="button" (click)="onBack()">Back</button>
+    <div *ngIf="editMode; else createRecipe" class="col-sm-6 text-center mx-auto">
+      <h2>Edit Recipe</h2>
+      <h4>{{originalRecipe.name}}</h4>
     </div>
+    <ng-template #createRecipe>
+      <h2>Create a Recipe</h2>
+    </ng-template>
   </div>
+  <form (ngSubmit)="onSave()" [formGroup]="editRecipeForm">
 
-  <div class="row">
-    <div class="col-12 mx-2">
-      <div>
-        <label for="recipe_name" class="form-label"> Recipe Id : </label>
-        <input class="readonly form-control" readonly type="text" id="recipe_id" formControlName="recipeId">
-      </div>
-      <div>
-        <label for="recipe_name" class="form-label"> Recipe Name : </label>
-        <span class="on-error" *ngIf="!editRecipeForm.get('recipeName').valid  && editRecipeForm.get('recipeName').touched" > * Name is required</span>
+    <div class="row">
 
-        <input type="text" id="recipe_name" class="form-control" formControlName="recipeName">
+      <div class="col-sm-4 d-flex justify-content-sm-around mx-auto my-2">
+        <button class="btn btn-light" type="submit">Save</button>
+        <button class="btn btn-light" type="button" (click)="onCancel()">Cancel</button>
+        <button class="btn btn-light" type="button" (click)="onBack()">Back</button>
       </div>
-      <div>
-        <label for="recipe_description" class="form-label"> Recipe Description : </label>
-        <span class="on-error" *ngIf="!editRecipeForm.get('recipeDescription').valid  && editRecipeForm.get('recipeDescription').touched" > * Description is required</span>
+    </div>
 
-        <textarea id="recipe_description" class="form-control" formControlName="recipeDescription"></textarea>
-      </div>
-      <div>
-        <label for="recipe_image" class="form-label"> Recipe Image : </label>
-        <span class="on-error" *ngIf="!editRecipeForm.get('recipeImage').valid  && editRecipeForm.get('recipeImage').touched" > * Image is required</span>
-        <input type="text" id="recipe_image" class="form-control" formControlName="recipeImage" #imagePath>
-        <div *ngIf="imagePath.value">
-          <img [src]="imagePath.value">
+    <div class="row">
+      <div class="col-12 mx-2">
+        <div>
+          <label for="recipe_name" class="form-label"> Recipe Id : </label>
+          <input class="readonly form-control" readonly type="text" id="recipe_id" formControlName="recipeId">
         </div>
-      </div>
-      <div formGroupName="ingredients">
-        <label class="form-label"> Ingredients : </label>
-        <span class="on-error" *ngIf="!editRecipeForm.get('ingredients').valid
+        <div>
+          <label for="recipe_name" class="form-label"> Recipe Name : </label>
+          <span class="on-error" *ngIf="!editRecipeForm.get('recipeName').valid  && editRecipeForm.get('recipeName').touched" > * Name is required</span>
+
+          <input type="text" id="recipe_name" class="form-control" formControlName="recipeName">
+        </div>
+        <div>
+          <label for="recipe_description" class="form-label"> Recipe Description : </label>
+          <span class="on-error" *ngIf="!editRecipeForm.get('recipeDescription').valid  && editRecipeForm.get('recipeDescription').touched" > * Description is required</span>
+
+          <textarea id="recipe_description" class="form-control" formControlName="recipeDescription"></textarea>
+        </div>
+        <div>
+          <label for="recipe_image" class="form-label"> Recipe Image : </label>
+          <span class="on-error" *ngIf="!editRecipeForm.get('recipeImage').valid  && editRecipeForm.get('recipeImage').touched" > * Image is required</span>
+          <input type="text" id="recipe_image" class="form-control" formControlName="recipeImage" #imagePath>
+          <div *ngIf="imagePath.value">
+            <img [src]="imagePath.value" [alt]="'image_'+editRecipeForm.get('recipeName')">
+          </div>
+        </div>
+        <div formGroupName="ingredients">
+          <label class="form-label"> Ingredients : </label>
+          <span class="on-error" *ngIf="!editRecipeForm.get('ingredients').valid
         && getIngredientControls().length<2 && editRecipeForm.touched" > * At least one ingredient is required</span>
 
-        <div>
-          <div *ngFor="let form of getIngredientControls();let i = index" [formGroupName]="i">
-            <div class="d-flex flex-inline" >
-              <input type="text" id="ing_name_updated" class="form-control" formControlName="ingredientName" placeholder="{{namePlaceHolder}}">
-              <input type="number" id="ing-Amount_updated" formControlName="ingredientAmount" class="form-control" placeholder="{{amountPlaceHolder}}">
-              <button class="btn btn-light delete" (click)="onDeleteIngredient(i)">X</button>
+          <div>
+            <div *ngFor="let form of getIngredientControls();let i = index" [formGroupName]="i">
+              <div class="d-flex flex-inline" >
+                <input type="text" id="ing_name_updated{{i}}" class="form-control" formControlName="ingredientName" placeholder="{{namePlaceHolder}}">
+                <input type="number" id="ing-Amount_updated{{i}}" formControlName="ingredientAmount" class="form-control" placeholder="{{amountPlaceHolder}}">
+                <button class="btn btn-light delete" (click)="onDeleteIngredient(i)">X</button>
               </div>
-            <div class="errors d-flex flex-column">
-              <span class="on-error" *ngIf="!editRecipeForm.get('ingredients.'+i+'.ingredientName').valid" > * Ingredient name is required</span>
-              <span class="on-error" *ngIf="!editRecipeForm.get('ingredients.'+i+'.ingredientAmount').valid"> * Ingredient amount is required</span>
-            </div>
+              <div class="errors d-flex flex-column">
+                <span class="on-error" *ngIf="!editRecipeForm.get('ingredients.'+i+'.ingredientName').valid" > * Ingredient name is required</span>
+                <span class="on-error" *ngIf="!editRecipeForm.get('ingredients.'+i+'.ingredientAmount').valid"> * Ingredient amount is required</span>
+              </div>
 
+            </div>
+            <button class="btn btn-light" (click)="onAddIngredient();">Add Ingredient</button>
           </div>
-          <button class="btn btn-light" (click)="onAddIngredient();">Add Ingredient</button>
-       </div>
+        </div>
+
       </div>
 
     </div>
 
-  </div>
+  </form>
+</div>
 
-</form>
